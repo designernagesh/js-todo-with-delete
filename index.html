@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>To Do's with Done and Delete</title>  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@700;800;900&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="d-flex mt-4 justify-content-center">
+  <div class="container">
+    <h1 class="display-3 text-danger">To Do's with Done and Delete</h1>
+    <p class="text-center mb-0">Single Click on the List to Strike out as Completed the To Do.</p>
+    <p class="text-center">Double Click on the List to Delete the To Do.</p>
+      <div class="row">
+        <div class="col-md-8 col-sm-12 offset-md-2 my-4">
+          <form onsubmit="event.preventDefault(); addTodo()">            
+            <div class="form-group row">
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="inputList" placeholder="To Do...">
+              </div>
+              <div class="col-sm-3">
+                <input type="submit" class="btn btn-danger btn-block" value="Create a To Do">
+              </div>
+            </div>
+          </form>          
+          <div class="todoList">
+            <span></span>            
+          </div>
+        </div>
+      </div>
+   </div>
+  </div>
+  <script>
+    let inputList = document.querySelector('#inputList');
+    let todoList = document.querySelector('.todoList');
+    let span = document.querySelector('.todoList span');
+    span.textContent = 'There are no To Do\'s.';
+
+    const addTodo = () => {
+      if( inputList.value.trim() != 0){
+        let ul = document.createElement('ul');
+        let li = document.createElement('li');
+        span.style.display = 'none';
+        
+        li.innerHTML = `<span><i class="fas fa-check-circle"></i>${inputList.value}</span> 
+                        <span class="actions"><input type="checkbox"> <i class="fas fa-trash delete"></i></span>`;
+        ul.appendChild(li);
+        todoList.appendChild(ul);
+        inputList.value = '';
+        inputList.focus();        
+
+        li.addEventListener('click', (e) => {
+          if(e.target.type === 'checkbox'){            
+            e.target.parentNode.parentElement.classList.toggle('completed');            
+          }
+          if(e.target.matches('.delete')){            
+            e.target.parentElement.parentElement.style.display = 'none';
+          }
+        })
+
+      }else{
+        alert('Enter some To Do\'s.')
+      }
+    }
+  </script>
+</body>
+</html>
